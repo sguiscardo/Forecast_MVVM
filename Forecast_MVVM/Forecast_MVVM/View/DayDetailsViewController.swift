@@ -46,7 +46,8 @@ extension DayDetailsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension DayDetailsViewController: DayDetailViewDelegate {
     func updateViews() {
-        DispatchQueue.main.async { [self] in
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {return}
             let currentDay = self.viewModel.days[0]
             self.cityNameLabel.text = self.viewModel.forcastData?.cityName ?? "No City Found"
             self.currentDescriptionLabel.text = currentDay.weather.description
