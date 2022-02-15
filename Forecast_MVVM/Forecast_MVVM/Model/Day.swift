@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TopLevelDictionary: Decodable {
+struct ForcastData: Decodable {
     private enum CodingKeys: String, CodingKey {
         case days = "data"
         case cityName = "city_name"

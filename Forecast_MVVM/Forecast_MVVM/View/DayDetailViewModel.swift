@@ -14,15 +14,15 @@ protocol DayDetailViewDelegate: DayDetailsViewController {
 
 class DayDetailViewModel {
     //MARK: - Properties
-    private var dataProvider: ForecastSearchDataProvider
-    var forcastData: TopLevelDictionary?
+    private var dataProvider: ForecastSearchDataProvidable
+    var forcastData: ForcastData?
     var days: [Day] {
         self.forcastData?.days ?? []
     }
     private weak var delegate: DayDetailViewDelegate?
     
     // Replaces NC with Protocol
-    init(delegate: DayDetailViewDelegate, dataProvider: ForecastSearchDataProvider = ForecastSearchDataProvider()) {
+    init(delegate: DayDetailViewDelegate, dataProvider: ForecastSearchDataProvidable = ForecastSearchDataProvider()) {
         self.delegate = delegate
         self.dataProvider = dataProvider
         loadResults()
@@ -34,7 +34,7 @@ class DayDetailViewModel {
         }
     }
     
-    private func handle(_ result: Result<TopLevelDictionary, NetworkError>) {
+    private func handle(_ result: Result<ForcastData, NetworkError>) {
         DispatchQueue.main.async {
             switch result {
             case .success(let forcastData):

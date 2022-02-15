@@ -8,13 +8,14 @@
 import Foundation
 
 protocol ForecastSearchDataProvidable where Self: APIDataProvidable {
-    func fetch(completion: @escaping (Result<TopLevelDictionary, NetworkError>) -> Void)
+    func fetch(completion: @escaping (Result<ForcastData, NetworkError>) -> Void)
 }
 
 struct ForecastSearchDataProvider: ForecastSearchDataProvidable, APIDataProvidable {
+    // Adopts the protocol, which we cna use for testing. We can just create another object like this to test.
     private let baseURLString = "https://api.weatherbit.io"
     
-    func fetch(completion: @escaping (Result<TopLevelDictionary, NetworkError>) -> Void) {
+    func fetch(completion: @escaping (Result<ForcastData, NetworkError>) -> Void) {
         guard let baseURL = URL(string:baseURLString) else {return}
 
         var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
@@ -33,7 +34,7 @@ struct ForecastSearchDataProvider: ForecastSearchDataProvidable, APIDataProvidab
             switch result {
             case .success(let data):
                 do {
-                    let object = try data.decode(type: TopLevelDictionary.self)
+                    let object = try data.decode(type: ForcastData.self)
                     completion(.success(object))
                 } catch {
                     completion(.failure(.requestError(error)))
