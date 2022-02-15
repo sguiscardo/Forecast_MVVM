@@ -29,7 +29,7 @@ class DayDetailViewModel {
     }
     
     func loadResults() {
-        dataProvider.fetch { [weak self] result in
+        dataProvider.fetch(from:.city("Salt Lake")) { [weak self] result in
             self?.handle(result)
         }
     }

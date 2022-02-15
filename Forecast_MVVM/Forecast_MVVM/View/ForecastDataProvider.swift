@@ -8,27 +8,17 @@
 import Foundation
 
 protocol ForecastSearchDataProvidable where Self: APIDataProvidable {
-    func fetch(completion: @escaping (Result<ForcastData, NetworkError>) -> Void)
+    func fetch(from endpoint: WeatherBitEndpoint, completion: @escaping (Result<ForcastData, NetworkError>) -> Void)
 }
 
 struct ForecastSearchDataProvider: ForecastSearchDataProvidable, APIDataProvidable {
     // Adopts the protocol, which we cna use for testing. We can just create another object like this to test.
-    private let baseURLString = "https://api.weatherbit.io"
-    
-    func fetch(completion: @escaping (Result<ForcastData, NetworkError>) -> Void) {
-        guard let baseURL = URL(string:baseURLString) else {return}
-
-        var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
-        urlComponents?.path = "/v2.0/forecast/daily"
-        
-        let apiQuery = URLQueryItem(name: "key", value: "8503276d5f49474f953722fa0a8e7ef8")
-        let cityQuery = URLQueryItem(name: "city", value:"Salt Lake")
-        let unitsQuery = URLQueryItem(name: "units", value: "I")
-        urlComponents?.queryItems = [apiQuery,cityQuery,unitsQuery]
-        
-        guard let finalURL = urlComponents?.url else {return}
-        print(finalURL)
-        let request = URLRequest(url: finalURL)
+    func fetch(from endpoint: WeatherBitEndpoint, completion: @escaping (Result<ForcastData, NetworkError>) -> Void) {
+        guard let url = endpoint.url else {
+            completion(.failure(.badURL))
+            return
+        }
+        let request = URLRequest(url: url)
         
         perform(request) { result in
             switch result {
@@ -44,4 +34,28 @@ struct ForecastSearchDataProvider: ForecastSearchDataProvidable, APIDataProvidab
             }
         }
     }
+}
+
+enum WeatherBitEndpoint {
+    case city(String)
+    
+    var url: URL? {
+        guard var baseURL = URL.forcastBaseURL else {return nil}
+        baseURL.appendPathComponent("/v2.0/forecast")
+        let apiQuery = URLQueryItem(name: "key", value: "8503276d5f49474f953722fa0a8e7ef8")
+        switch self {
+        case .city(let cityName):
+            baseURL.appendPathComponent("daily")
+            guard var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true) else { return nil}
+            let cityQuery = URLQueryItem(name: "city", value:cityName)
+            let unitsQuery = URLQueryItem(name: "units", value: "I")
+            urlComponents.queryItems = [apiQuery,cityQuery,unitsQuery]
+            return urlComponents.url
+            
+        }
+    }
+}
+
+extension URL {
+    static let forcastBaseURL = URL(string: "https://api.weatherbit.io")
 }
