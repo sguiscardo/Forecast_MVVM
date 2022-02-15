@@ -10,7 +10,7 @@ import Foundation
 protocol APIDataProvidable {
     func perform(_ request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }
-
+// WHy do we do this? So that we can use multiple endpoints and not repeat the dataTask code. This will nto change.
 extension APIDataProvidable {
     func perform(_ request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in

@@ -25,6 +25,7 @@ class DayDetailsViewController: UIViewController {
         super.viewDidLoad()
         // Conform to the TBVS Protocols
         viewModel = DayDetailViewModel(delegate: self)
+//        viewModel.delegate = self
         dayForcastTableView.delegate = self
         dayForcastTableView.dataSource = self
     }

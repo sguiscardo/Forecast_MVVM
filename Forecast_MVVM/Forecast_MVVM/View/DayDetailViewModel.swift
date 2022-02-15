@@ -14,20 +14,23 @@ protocol DayDetailViewDelegate: DayDetailsViewController {
 
 class DayDetailViewModel {
     //MARK: - Properties
-    private var dataProvider: ForecastSearchDataProvidable
+    private var dataProvider = ForecastSearchDataProvider()
     var forcastData: ForcastData?
     var days: [Day] {
         self.forcastData?.days ?? []
     }
-    private weak var delegate: DayDetailViewDelegate?
+    weak var delegate: DayDetailViewDelegate?
     
     // Replaces NC with Protocol
-    init(delegate: DayDetailViewDelegate, dataProvider: ForecastSearchDataProvidable = ForecastSearchDataProvider()) {
+    init(delegate: DayDetailViewDelegate) {
         self.delegate = delegate
-        self.dataProvider = dataProvider
+//        self.dataProvider = dataProvider
         loadResults()
     }
     
+//    func fetch() {
+//
+//    }
     func loadResults() {
         dataProvider.fetch(from:.city("Salt Lake")) { [weak self] result in
             self?.handle(result)

@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ForecastSearchDataProvidable where Self: APIDataProvidable {
-    func fetch(from endpoint: WeatherBitEndpoint, completion: @escaping (Result<ForcastData, NetworkError>) -> Void)
-}
+//protocol ForecastSearchDataProvidable where Self: APIDataProvidable {
+//    func fetch(from endpoint: WeatherBitEndpoint, completion: @escaping (Result<ForcastData, NetworkError>) -> Void)
+//}
 
-struct ForecastSearchDataProvider: ForecastSearchDataProvidable, APIDataProvidable {
+struct ForecastSearchDataProvider: APIDataProvidable {
     // Adopts the protocol, which we cna use for testing. We can just create another object like this to test.
     func fetch(from endpoint: WeatherBitEndpoint, completion: @escaping (Result<ForcastData, NetworkError>) -> Void) {
         guard let url = endpoint.url else {
