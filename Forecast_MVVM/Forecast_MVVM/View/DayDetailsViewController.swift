@@ -45,17 +45,23 @@ extension DayDetailsViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension DayDetailsViewController: DayDetailViewDelegate {
-    func updateViews() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
-            let currentDay = self.viewModel.days[0]
-            self.cityNameLabel.text = self.viewModel.forcastData?.cityName ?? "No City Found"
-            self.currentDescriptionLabel.text = currentDay.weather.description
-            self.currentTempLabel.text = "\(currentDay.temp)F"
-            self.currentLowLabel.text = "\(currentDay.lowTemp)F"
-            self.currentHighLabel.text = "\(currentDay.highTemp)F"
-            self.dayForcastTableView.reloadData()
-        }
+    func forecastResultsLoadedSuccessfully() {
+        let currentDay = self.viewModel.days[0]
+        self.cityNameLabel.text = self.viewModel.forcastData?.cityName ?? "No City Found"
+        self.currentDescriptionLabel.text = currentDay.weather.description
+        self.currentTempLabel.text = "\(currentDay.temp)F"
+        self.currentLowLabel.text = "\(currentDay.lowTemp)F"
+        self.currentHighLabel.text = "\(currentDay.highTemp)F"
+        self.dayForcastTableView.reloadData()
+    }
+    
+    func encountered(_ error: Error) {
+        let alertController = UIAlertController(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Close", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
+            self?.viewModel?.loadResults()
+        }))
+        present(alertController, animated: true)
     }
 }
 

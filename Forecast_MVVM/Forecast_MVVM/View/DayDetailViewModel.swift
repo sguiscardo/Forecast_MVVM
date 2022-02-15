@@ -8,32 +8,41 @@
 import Foundation
 
 protocol DayDetailViewDelegate: DayDetailsViewController {
-    func updateViews()
+    func forecastResultsLoadedSuccessfully()
+    func encountered(_ error: Error)
 }
 
 class DayDetailViewModel {
     //MARK: - Properties
+    private var dataProvider: ForecastSearchDataProvider
     var forcastData: TopLevelDictionary?
     var days: [Day] {
         self.forcastData?.days ?? []
     }
     private weak var delegate: DayDetailViewDelegate?
-    private let networkingController: NetworkingContoller
     
-    init(delegate: DayDetailViewDelegate, networkController: NetworkingContoller = NetworkingContoller()) {
+    // Replaces NC with Protocol
+    init(delegate: DayDetailViewDelegate, dataProvider: ForecastSearchDataProvider = ForecastSearchDataProvider()) {
         self.delegate = delegate
-        self.networkingController = networkController
-        fetchForcastData()
+        self.dataProvider = dataProvider
+        loadResults()
     }
     
-    private func fetchForcastData() {
-        NetworkingContoller.fetchDays { result in
+    func loadResults() {
+        dataProvider.fetch { [weak self] result in
+            self?.handle(result)
+        }
+    }
+    
+    private func handle(_ result: Result<TopLevelDictionary, NetworkError>) {
+        DispatchQueue.main.async {
             switch result {
             case .success(let forcastData):
                 self.forcastData = forcastData
-                self.delegate?.updateViews()
+                self.delegate?.forecastResultsLoadedSuccessfully()
             case .failure(let error):
-                print("Error fetching the data!", error.errorDescription!)
+                print("Error fetching the data!", error.localizedDescription)
+                self.delegate?.encountered(error)
             }
         }
     }
