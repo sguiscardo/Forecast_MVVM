@@ -8,9 +8,10 @@
 import Foundation
 
 class NetworkingContoller {
+    
     private static let baseURLString = "https://api.weatherbit.io"
     
-    static func fetchDays(completion: @escaping (Result<TopLevelDictionary, ResultError>) -> Void) {
+    static func fetchDays(completion: @escaping (Result<TopLevelDictionary, NetworkError>) -> Void) {
         guard let baseURL = URL(string:baseURLString) else {return}
 
 
@@ -18,7 +19,7 @@ class NetworkingContoller {
         urlComponents?.path = "/v2.0/forecast/daily"
         
         let apiQuery = URLQueryItem(name: "key", value: "8503276d5f49474f953722fa0a8e7ef8")
-        let cityQuery = URLQueryItem(name: "city", value:"Salt Lake")
+        let cityQuery = URLQueryItem(name: "city", value:"Canton")
         let unitsQuery = URLQueryItem(name: "units", value: "I")
         urlComponents?.queryItems = [apiQuery,cityQuery,unitsQuery]
         
@@ -28,7 +29,7 @@ class NetworkingContoller {
         URLSession.shared.dataTask(with: finalURL) { dayData, _, error in
             if let error = error {
                 print("There was an error fetching the data. The url is \(finalURL), the error is \(error.localizedDescription)")
-                completion(.failure(.invalidURL(finalURL)))
+                completion(.failure(.invalidURL))
             }
             
             guard let data = dayData else {

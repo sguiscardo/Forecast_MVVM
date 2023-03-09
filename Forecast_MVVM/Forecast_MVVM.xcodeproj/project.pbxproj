@@ -17,6 +17,7 @@
 		41978F6D27B9CE70001CB2C0 /* ResultError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41978F6C27B9CE70001CB2C0 /* ResultError.swift */; };
 		41978F6F27B9CF0A001CB2C0 /* DayForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41978F6E27B9CF0A001CB2C0 /* DayForecastTableViewCell.swift */; };
 		41978F7127B9CF46001CB2C0 /* DayDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41978F7027B9CF46001CB2C0 /* DayDetailsViewController.swift */; };
+		93D79B2D29B96B8900942E6D /* DayDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D79B2C29B96B8900942E6D /* DayDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		41978F6C27B9CE70001CB2C0 /* ResultError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultError.swift; sourceTree = "<group>"; };
 		41978F6E27B9CF0A001CB2C0 /* DayForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayForecastTableViewCell.swift; sourceTree = "<group>"; };
 		41978F7027B9CF46001CB2C0 /* DayDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailsViewController.swift; sourceTree = "<group>"; };
+		93D79B2C29B96B8900942E6D /* DayDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				41978F6E27B9CF0A001CB2C0 /* DayForecastTableViewCell.swift */,
 				41978F7027B9CF46001CB2C0 /* DayDetailsViewController.swift */,
+				93D79B2C29B96B8900942E6D /* DayDetailViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93D79B2D29B96B8900942E6D /* DayDetailViewModel.swift in Sources */,
 				41978F6F27B9CF0A001CB2C0 /* DayForecastTableViewCell.swift in Sources */,
 				41978F6D27B9CE70001CB2C0 /* ResultError.swift in Sources */,
 				41978F4327B9C26C001CB2C0 /* AppDelegate.swift in Sources */,
